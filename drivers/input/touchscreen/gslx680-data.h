@@ -1,9 +1,9 @@
-#ifndef _GSLX680_H_
-#define _GSLX680_H_
+#ifndef _GSLX680_DATA_H_
+#define _GSLX680_DATA_H_
 
 
 #define SCREEN_MAX_X 		1024
-#define SCREEN_MAX_Y 		600
+#define SCREEN_MAX_Y 		768   //600
 
 struct fw_data
 {

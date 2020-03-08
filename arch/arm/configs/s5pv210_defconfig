@@ -50,7 +50,7 @@ CONFIG_I2C_S3C2410=y
 #touchscreens
 #
 # CONFIG_TOUCHSCREEN_GSLX680 is not set
-
+CONFIG_TOUCHSCREEN_GSLX680=y
 #
 #net work support
 #

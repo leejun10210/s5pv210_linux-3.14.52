@@ -20,6 +20,8 @@
 #include <linux/delay.h>
 #include <linux/pwm_backlight.h>
 #include <linux/platform_data/s3c-hsotg.h>
+#include <linux/input/kxtj9.h>
+#include <linux/input/gslx680.h>
 
 #include <asm/mach/arch.h>
 #include <asm/mach/map.h>
@@ -48,7 +50,7 @@
 #include <plat/backlight.h>
 #include <plat/mfc.h>
 #include <plat/clock.h>
-#include <linux/input/kxtj9.h>
+
 
 #include "common.h"
 
@@ -183,7 +185,6 @@ static struct platform_device smdkv210_dm9000 = {
 static void smdkv210_ek070tn93_set_power(struct plat_lcd_data *pd,
 					unsigned int power)
 {
-	printk("---------------%s----------------\n",__func__);
 	if (power) {
 #if !defined(CONFIG_BACKLIGHT_PWM)
 		gpio_request_one(S5PV210_GPD0(0), GPIOF_OUT_INIT_LOW, "GPD0");
@@ -413,13 +414,23 @@ static struct i2c_board_info smdkv210_i2c_devs0[] __initdata = {
 	{ I2C_BOARD_INFO("wm8580", 0x1b), },
 };
 
+#ifdef CONFIG_TOUCHSCREEN_GSLX680
+
+struct gslx680_platform_data gslx680_pdata __initdata = {
+	.reset_pin = S5PV210_GPH0(6),
+	.irq_pin = S5PV210_GPH0(7),
+};
+
+#endif	/* CONFIG_TOUCHSCREEN_GSLX680 */
+
 static struct i2c_board_info smdkv210_i2c_devs1[] __initdata = {
 	/* To Be Updated */
-#ifdef CONFIG_TOUCHSCREEN_EDT_FT5X06
+#ifdef CONFIG_TOUCHSCREEN_GSLX680
 	{ 
-	I2C_BOARD_INFO("edt-ft5x06", 0x70>>1), 
+	I2C_BOARD_INFO("gslx680", 0x40), 
+	.platform_data = &gslx680_pdata,
 	},
-#endif	/* CONFIG_TOUCHSCREEN_EDT_FT5X06 */
+#endif	/* CONFIG_TOUCHSCREEN_GSLX680 */
 };
 
 static struct i2c_board_info smdkv210_i2c_devs2[] __initdata = {
